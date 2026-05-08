@@ -1,9 +1,9 @@
 {
     "id": "retro",
-    "name": "Retro DOS Theme",
+    "name": "Retro Theme",
     "author": "Antigravity",
-    "version": "1.0.0",
-    "description": "An MS-DOS Retro Theme for Pelican Panel.",
+    "version": "2.0.0",
+    "description": "Soft retro MS-DOS/CRT theme with dark mode (soft dark CRT green) and light mode (Win95 cream). Full navbar, sidebar, forms, tables, and component styling.",
     "category": "theme",
     "namespace": "RetroTheme",
     "class": "RetroPlugin"
