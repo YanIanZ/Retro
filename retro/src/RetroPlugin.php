@@ -16,15 +16,14 @@ class RetroPlugin implements Plugin
 
     public function register(Panel $panel): void
     {
-        // Inject CSS and JS via Filament assets
-        $panel->assets([
-            Css::make('retro-css', __DIR__ . '/../resources/css/retro.css'),
-            Js::make('retro-js', __DIR__ . '/../resources/js/retro.js'),
-        ]);
+        // Registration logic
     }
 
     public function boot(Panel $panel): void
     {
-        // Boot logic
+        \Filament\Support\Facades\FilamentAsset::register([
+            Css::make('retro-css', __DIR__ . '/../resources/css/retro.css'),
+            Js::make('retro-js', __DIR__ . '/../resources/js/retro.js'),
+        ], 'retro');
     }
 }
