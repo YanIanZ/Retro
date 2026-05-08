@@ -2,8 +2,8 @@
     "id": "retro",
     "name": "Retro Theme",
     "author": "Antigravity",
-    "version": "2.0.0",
-    "description": "Soft retro MS-DOS/CRT theme with dark mode (soft dark CRT green) and light mode (Win95 cream). Full navbar, sidebar, forms, tables, and component styling.",
+    "version": "2.1.0",
+    "description": "Neo-brutalist panel UI with bold yellow/cyan/magenta accents on soft dark backgrounds. Dark mode (soft dark) and light mode (warm cream). Full navbar, sidebar, forms, tables, and component styling.",
     "category": "theme",
     "namespace": "RetroTheme",
     "class": "RetroPlugin"

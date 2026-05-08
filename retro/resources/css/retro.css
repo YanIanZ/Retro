@@ -1,1312 +1,1118 @@
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800;900&family=Archivo+Black&family=Bricolage+Grotesque:wght@500;700;800&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
 
 /* ====================================================
-   GLOBAL RESET & BASE
+   CSS CUSTOM PROPERTIES — DESIGN TOKENS
+   ==================================================== */
+:root {
+  /* Accents */
+  --accent-1: #FFD23F;
+  --accent-2: #33D9F0;
+  --accent-3: #FF4D8D;
+
+  /* Brutalism */
+  --bw: 3px;
+  --so: 6px;
+  --radius: 0px;
+
+  /* Typography */
+  --font-display: "Space Grotesk", sans-serif;
+  --font-body: "DM Sans", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", "IBM Plex Mono", ui-monospace, monospace;
+
+  /* Light mode (default) */
+  --bg: #F4F1E8;
+  --bg-2: #FFFCF2;
+  --ink: #0E0E0E;
+  --ink-2: #2A2A2A;
+  --muted: #6E6A5E;
+  --hair: #1A1A1A;
+}
+
+/* Dark mode */
+html.dark {
+  --bg: #14141A;
+  --bg-2: #1E1E26;
+  --ink: #F2EFE3;
+  --ink-2: #D6D2C2;
+  --muted: #8A8478;
+  --hair: #F2EFE3;
+}
+
+/* ====================================================
+   1. GLOBAL RESET
    ==================================================== */
 *, *::before, *::after {
   box-sizing: border-box;
 }
 
-/* ====================================================
-   DARK MODE — Soft Retro CRT (Desaturated)
-   ==================================================== */
-html.dark body {
-  font-family: 'VT323', monospace !important;
-  font-size: 1.15rem;
-  background-color: #0d0f16 !important;
-  color: #c4c8d4 !important;
+html, body {
+  height: 100%;
+  margin: 0;
 }
 
-html.dark h1,
-html.dark h2,
-html.dark h3,
-html.dark h4,
-html.dark h5,
-html.dark h6,
-html.dark .fi-header-heading {
-  font-family: 'Press Start 2P', cursive !important;
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ====================================================
+   2. GLOBAL MOTION
+   ==================================================== */
+*, *::before, *::after {
+  transition-timing-function: cubic-bezier(.2,.7,.2,1);
+}
+
+/* ====================================================
+   3. SELECTION
+   ==================================================== */
+::selection {
+  background: var(--accent-1);
+  color: var(--ink);
+}
+
+/* ====================================================
+   4. FOCUS RING
+   ==================================================== */
+:focus-visible {
+  outline: 3px solid var(--accent-2);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* ====================================================
+   5. SCROLLBARS — DARK MODE
+   ==================================================== */
+html.dark ::-webkit-scrollbar {
+  width: 12px;
+}
+html.dark ::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+html.dark ::-webkit-scrollbar-thumb {
+  background: var(--ink);
+  border: 2px solid var(--bg-2);
+}
+html.dark ::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-3);
+}
+
+/* ====================================================
+   5b. SCROLLBARS — LIGHT MODE
+   ==================================================== */
+html:not(.dark) ::-webkit-scrollbar {
+  width: 14px;
+}
+html:not(.dark) ::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+html:not(.dark) ::-webkit-scrollbar-thumb {
+  background: var(--bg);
+  border: 2px solid;
+  border-color: var(--hair) transparent transparent var(--hair);
+}
+html:not(.dark) ::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-1);
+}
+
+/* ====================================================
+   6. TOPBAR / NAVBAR
+   ==================================================== */
+.fi-topbar {
+  display: grid;
+  grid-template-columns: auto auto 1fr auto auto auto;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 18px;
+  background: var(--bg-2);
+  border-bottom: var(--bw) solid var(--hair);
+  backdrop-filter: blur(6px);
+}
+
+/* Brand */
+.fi-topbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Brand mark (logo icon) */
+.fi-topbar-brand-mark {
+  width: 44px;
+  height: 44px;
+  background: var(--accent-1);
+  border: var(--bw) solid var(--hair);
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 18px;
+  box-shadow: var(--so) var(--so) 0 var(--hair);
+  transform: rotate(-3deg);
+  transition: transform 0.4s cubic-bezier(.2,1.4,.4,1);
+}
+.fi-topbar-brand-mark:hover {
+  transform: rotate(8deg) scale(1.06);
+}
+
+/* Brand text */
+.fi-topbar-brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+.fi-topbar-brand-text strong {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  font-size: 18px;
+  color: var(--ink);
+}
+.fi-topbar-brand-text span {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--muted);
   text-transform: uppercase;
-  color: #7effc4 !important;
-  text-shadow: 2px 2px 0px rgba(0,0,0,0.6) !important;
+  letter-spacing: 0.06em;
 }
 
-/* --- CRT scanline overlay --- */
-html.dark::after {
-  content: " ";
-  display: block;
-  position: fixed;
-  top: 0; left: 0; bottom: 0; right: 0;
-  background: repeating-linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0) 0px,
-    rgba(0, 0, 0, 0) 2px,
-    rgba(0, 0, 0, 0.18) 2px,
-    rgba(0, 0, 0, 0.18) 4px
-  );
-  z-index: 9999;
-  pointer-events: none;
+/* Topbar buttons */
+.fi-topbar-btn,
+.fi-topbar button {
+  width: 44px;
+  height: 44px;
+  background: var(--bg);
+  border: var(--bw) solid var(--hair);
+  font-family: var(--font-mono);
+  font-weight: 800;
+  font-size: 16px;
+  color: var(--ink);
+  box-shadow: var(--so) var(--so) 0 var(--hair);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: transform 0.12s, box-shadow 0.12s, background 0.2s;
 }
-
-/* --- CRT flicker (subtle) --- */
-@keyframes retro-flicker {
-  0%, 95%, 100% { opacity: 1; }
-  96%            { opacity: 0.92; }
-  97%            { opacity: 1; }
-  98%            { opacity: 0.96; }
+.fi-topbar-btn:hover,
+.fi-topbar button:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 8px 8px 0 var(--hair);
+  background: var(--accent-1);
 }
-html.dark { animation: retro-flicker 8s infinite; }
-
-/* ====================================================
-   DARK MODE — NAVBAR / TOPBAR
-   ==================================================== */
-html.dark .fi-topbar {
-  background-color: #0a0c14 !important;
-  border-bottom: 2px solid #2a2e3a !important;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.4) !important;
-}
-
-html.dark .fi-topbar .fi-topbar-brand {
-  font-family: 'Press Start 2P', cursive !important;
-  font-size: 0.65rem !important;
-  color: #7effc4 !important;
-  letter-spacing: 0.05em;
-  text-shadow: 0 0 8px rgba(126, 255, 196, 0.4) !important;
-}
-
-html.dark .fi-topbar a,
-html.dark .fi-topbar button {
-  color: #c4c8d4 !important;
-}
-
-html.dark .fi-topbar a:hover,
-html.dark .fi-topbar button:hover {
-  color: #7effc4 !important;
-  text-shadow: 0 0 6px rgba(126, 255, 196, 0.5) !important;
+.fi-topbar-btn:active,
+.fi-topbar button:active {
+  transform: translate(3px, 3px);
+  box-shadow: none;
 }
 
 /* ====================================================
-   DARK MODE — SIDEBAR
+   7. SIDEBAR
    ==================================================== */
-html.dark .fi-sidebar {
-  background-color: #0a0c14 !important;
-  border-right: 2px solid #2a2e3a !important;
-  box-shadow: 2px 0 10px rgba(0,0,0,0.3) !important;
+.fi-sidebar {
+  width: 320px;
+  background: var(--bg-2);
+  border-right: var(--bw) solid var(--hair);
+  overflow-y: auto;
+  padding: 16px 14px 100px;
+  scroll-behavior: smooth;
+}
+.fi-sidebar::-webkit-scrollbar {
+  width: 10px;
+}
+.fi-sidebar::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+.fi-sidebar::-webkit-scrollbar-thumb {
+  background: var(--hair);
+}
+.fi-sidebar::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-3);
 }
 
-html.dark .fi-sidebar-header {
-  background-color: #0d0f16 !important;
-  border-bottom: 1px solid #2a2e3a !important;
-  padding: 1rem 1.25rem !important;
+/* Sidebar header */
+.fi-sidebar-header {
+  background: var(--bg-2);
+  padding: 12px 14px;
+  border-bottom: 1px dashed var(--hair);
 }
 
-html.dark .fi-sidebar-brand {
-  font-family: 'Press Start 2P', cursive !important;
-  font-size: 0.55rem !important;
-  color: #7effc4 !important;
-  text-shadow: 0 0 10px rgba(126, 255, 196, 0.35) !important;
-  letter-spacing: 0.05em;
+/* Sidebar brand */
+.fi-sidebar-brand {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 16px;
+  color: var(--ink);
 }
 
-/* sidebar nav group label */
-html.dark .fi-sidebar-group-label {
-  font-family: 'Press Start 2P', cursive !important;
-  font-size: 0.5rem !important;
-  color: #4a5068 !important;
+/* Group label */
+.fi-sidebar-group-label {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.08em;
+  color: var(--muted);
+  padding: 16px 12px 6px;
 }
 
-/* sidebar items */
-html.dark .fi-sidebar-item {
-  border-radius: 0 !important;
-  color: #8892a4 !important;
-  font-family: 'VT323', monospace !important;
-  font-size: 1.1rem !important;
-  transition: background 0.1s, color 0.1s !important;
-  margin: 2px 6px !important;
-  border: 1px solid transparent !important;
+/* Sidebar item */
+.fi-sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: 2px solid transparent;
+  border-radius: 0;
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--ink-2);
+  background: transparent;
+  transition: transform 0.1s, background 0.15s, padding 0.15s;
+  cursor: pointer;
+  text-decoration: none;
+}
+.fi-sidebar-item:hover {
+  background: var(--bg);
+  border-color: var(--hair);
+  padding-left: 14px;
 }
 
-html.dark .fi-sidebar-item:hover {
-  background-color: #161926 !important;
-  color: #c4c8d4 !important;
-  border-color: #2a2e3a !important;
+/* Sidebar item active */
+.fi-sidebar-item-active,
+.fi-sidebar-item.active {
+  background: var(--ink);
+  color: var(--bg-2);
+  border: var(--bw) solid var(--hair);
+  font-weight: 600;
+  padding-left: 14px;
+  position: relative;
+}
+.fi-sidebar-item-active::before {
+  content: "";
+  position: absolute;
+  left: -10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 60%;
+  background: var(--accent-1);
 }
 
-html.dark .fi-sidebar-item-active,
-html.dark .fi-sidebar-item-active:hover {
-  background-color: rgba(126, 255, 196, 0.12) !important;
-  color: #7effc4 !important;
-  border: 1px solid rgba(126, 255, 196, 0.3) !important;
-  text-shadow: 0 0 8px rgba(126, 255, 196, 0.4) !important;
+/* Sidebar icon */
+.fi-sidebar-item-icon {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--muted);
+  transition: color 0.15s;
+}
+.fi-sidebar-item:hover .fi-sidebar-item-icon {
+  color: var(--ink);
+}
+.fi-sidebar-item-active .fi-sidebar-item-icon {
+  color: var(--accent-1);
 }
 
-html.dark .fi-sidebar-item-active .fi-sidebar-item-icon,
-html.dark .fi-sidebar-item-active .fi-sidebar-item-label {
-  color: #7effc4 !important;
+/* Difficulty dot */
+.fi-sidebar-item-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.fi-sidebar-item-dot.newbie    { background: var(--accent-1); }
+.fi-sidebar-item-dot.intermediate { background: var(--accent-2); }
+.fi-sidebar-item-dot.advanced  { background: var(--accent-3); }
+.fi-sidebar-item:hover .fi-sidebar-item-dot {
+  transform: scale(1.4);
+}
+.fi-sidebar-item-dot.newbie:hover    { box-shadow: 0 0 6px var(--accent-1); }
+.fi-sidebar-item-dot.intermediate:hover { box-shadow: 0 0 6px var(--accent-2); }
+.fi-sidebar-item-dot.advanced:hover  { box-shadow: 0 0 6px var(--accent-3); }
+
+/* ====================================================
+   8. MAIN CONTENT
+   ==================================================== */
+.fi-main {
+  flex: 1;
+  min-height: 0;
+  background: var(--bg);
+  overflow-y: auto;
 }
 
-/* sidebar icon */
-html.dark .fi-sidebar-item-icon {
-  color: #4a5068 !important;
-  transition: color 0.1s !important;
+/* Page container */
+.fi-page {
+  background: var(--bg-2);
 }
-html.dark .fi-sidebar-item:hover .fi-sidebar-item-icon {
-  color: #8892a4 !important;
+
+/* Section */
+.fi-section {
+  background: var(--bg-2);
+  border: var(--bw) solid var(--hair);
+  box-shadow: var(--so) var(--so) 0 var(--hair);
+  padding: 24px 28px;
+  margin-bottom: 20px;
 }
-html.dark .fi-sidebar-item-active .fi-sidebar-item-icon {
-  color: #7effc4 !important;
+
+/* Section title */
+.fi-section-title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+  margin: 0 0 16px;
 }
 
 /* ====================================================
-   DARK MODE — MAIN CONTENT AREA
+   9. PAGE HEADER
    ==================================================== */
-html.dark .fi-main {
-  background-color: #0d0f16 !important;
+.fi-page-header {
+  background: transparent;
+  border-bottom: var(--bw) dashed var(--hair);
+  padding-bottom: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.fi-page-title,
+.fi-header-heading,
+h1.fi-page-title {
+  font-family: "Archivo Black", var(--font-display);
+  font-weight: 900;
+  font-size: clamp(28px, 4vw, 48px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  text-wrap: balance;
+  margin: 0;
+}
+
+/* ====================================================
+   10. BUTTONS
+   ==================================================== */
+.fi-btn {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: var(--bw) solid var(--hair);
+  border-radius: 0;
+  background: var(--bg);
+  color: var(--ink);
+  box-shadow: 4px 4px 0 var(--hair);
+  padding: 10px 18px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: transform 0.12s, box-shadow 0.12s;
+  text-decoration: none;
+  line-height: 1;
+}
+.fi-btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--hair);
+  color: var(--ink);
+  text-decoration: none;
+}
+.fi-btn:active {
+  transform: translate(4px, 4px);
+  box-shadow: none;
+}
+
+/* Primary */
+.fi-btn-primary {
+  background: var(--accent-1);
+}
+
+/* Danger */
+.fi-btn-danger {
+  background: var(--accent-3);
+  color: #fff;
+}
+.fi-btn-danger:hover {
+  background: var(--accent-3);
+  color: #fff;
+}
+
+/* Secondary */
+.fi-btn-secondary {
+  opacity: 0.7;
+}
+.fi-btn-secondary:hover {
+  opacity: 1;
+}
+
+/* ====================================================
+   11. FORMS
+   ==================================================== */
+.fi-input,
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="search"],
+input[type="url"],
+input[type="tel"],
+textarea,
+select {
+  font-family: var(--font-body);
+  font-size: 15px;
+  background: var(--bg);
+  border: var(--bw) solid var(--hair);
+  border-radius: 0;
+  color: var(--ink);
+  padding: 10px 14px;
+  height: 44px;
+  box-shadow: 4px 4px 0 var(--hair);
+  transition: transform 0.12s, box-shadow 0.12s, background 0.15s;
+  outline: none;
+  width: 100%;
+}
+textarea {
+  height: auto;
+  min-height: 100px;
+  resize: vertical;
+}
+.fi-input:hover,
+input[type="text"]:hover,
+input[type="email"]:hover,
+input[type="password"]:hover,
+textarea:hover,
+select:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 5px 5px 0 var(--hair);
+}
+.fi-input:focus,
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+textarea:focus,
+select:focus {
+  background: var(--accent-1);
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--hair);
+}
+input::placeholder,
+textarea::placeholder {
+  color: var(--muted);
+}
+
+/* Labels */
+.fi-label,
+label {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  display: block;
+  margin-bottom: 6px;
+}
+
+/* Helper text */
+.fi-helper-text,
+.fi-field-helper-text {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 5px;
+}
+
+/* Error message */
+.fi-error-message,
+.fi-field-error {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--accent-3);
+  margin-top: 5px;
+  display: block;
+}
+
+/* Field wrapper */
+.fi-field-wrapper {
+  margin-bottom: 16px;
+}
+
+/* ====================================================
+   12. TABLES
+   ==================================================== */
+.fi-ta,
+.fi-table {
+  background: var(--bg-2);
+  border: var(--bw) solid var(--hair);
+  box-shadow: var(--so) var(--so) 0 var(--hair);
+  overflow: hidden;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* Table header */
+.fi-ta-header,
+thead {
+  background: var(--bg);
+  border-bottom: var(--bw) solid var(--hair);
+}
+
+.fi-th,
+.fi-ta-header-cell,
+thead th {
+  background: var(--bg);
+  border-bottom: var(--bw) solid var(--hair);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ink);
+  padding: 10px 14px;
+  text-align: left;
+}
+
+/* Table row */
+.fi-ta-row,
+tbody tr {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--ink-2);
+  border-bottom: 1px solid color-mix(in oklab, var(--ink) 10%, transparent);
+  transition: background 0.15s;
+}
+.fi-ta-row:hover,
+tbody tr:hover {
+  background: var(--bg);
+}
+.fi-ta-row-active,
+tbody tr.row-active {
+  background: var(--ink);
+  color: var(--bg-2);
+}
+
+/* Table cell */
+.fi-ta-cell,
+td,
+tbody td {
+  padding: 12px 14px;
+  border-right: 1px solid color-mix(in oklab, var(--ink) 10%, transparent);
+}
+
+/* ====================================================
+   13. CARDS
+   ==================================================== */
+.fi-card {
+  background: var(--bg-2);
+  border: var(--bw) solid var(--hair);
+  box-shadow: var(--so) var(--so) 0 var(--hair);
+  padding: 20px 24px;
+  transition: transform 0.18s, box-shadow 0.18s;
+}
+.fi-card:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 9px 9px 0 var(--hair);
+}
+
+/* ====================================================
+   14. TABS
+   ==================================================== */
+.fi-tabs {
+  background: var(--bg-2);
+  border: var(--bw) solid var(--hair);
+  box-shadow: var(--so) var(--so) 0 var(--hair);
+}
+
+.fi-tabs-list {
+  display: flex;
+  border-bottom: var(--bw) solid var(--hair);
+  overflow-x: auto;
+}
+
+.fi-tab {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  padding: 12px 16px;
+  background: var(--bg);
+  border: none;
+  border-right: var(--bw) solid var(--hair);
+  cursor: pointer;
+  transition: color 0.2s, background 0.2s;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.fi-tab:hover {
+  color: var(--ink);
+  background: color-mix(in oklab, var(--bg) 80%, var(--accent-1));
+}
+
+.fi-tab-active,
+.fi-tab[aria-selected="true"] {
+  background: var(--accent-2);
+  color: var(--ink);
+}
+
+.fi-tabs-panel {
+  padding: 20px 24px;
+}
+
+/* ====================================================
+   15. BADGES
+   ==================================================== */
+.fi-badge {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 4px 10px;
+  border: 2px solid var(--hair);
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.fi-badge-success {
+  background: #62E07A;
+  color: #000;
+}
+.fi-badge-danger {
+  background: var(--accent-3);
+  color: #fff;
+}
+.fi-badge-warning {
+  background: var(--accent-1);
+  color: var(--ink);
+}
+.fi-badge-info {
+  background: var(--accent-2);
+  color: var(--ink);
+}
+
+/* ====================================================
+   16. PAGINATION
+   ==================================================== */
+.fi-pagination {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  background: var(--bg-2);
+  border: var(--bw) solid var(--hair);
+  box-shadow: 4px 4px 0 var(--hair);
+  padding: 12px 14px;
+}
+
+.fi-pagination-item,
+.fi-pagination-page-item,
+.pg-num {
+  min-width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  background: var(--bg);
+  border: 2px solid var(--hair);
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--ink);
+  cursor: pointer;
+  transition: transform 0.12s, box-shadow 0.12s, background 0.12s;
+  text-decoration: none;
+  padding: 0 4px;
+}
+.fi-pagination-item:hover:not(:disabled),
+.fi-pagination-page-item:hover:not(:disabled) {
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 var(--hair);
+  background: var(--accent-1);
+  color: var(--ink);
+}
+
+.fi-pagination-item-active,
+.fi-pagination-current {
+  background: var(--ink);
+  color: var(--bg-2);
+  box-shadow: none;
+  transform: none;
+}
+.fi-pagination-item-active:hover {
+  background: var(--ink);
+  color: var(--bg-2);
+}
+
+.fi-pagination-item:disabled,
+.fi-pagination-page-item:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.fi-pagination-prev,
+.fi-pagination-next {
+  font-size: 16px;
+}
+
+/* ====================================================
+   17. DROPDOWN / MENU
+   ==================================================== */
+.fi-dropdown-panel,
+.fi-dropdown-list,
+.fi-menu {
+  background: var(--bg-2);
+  border: var(--bw) solid var(--hair);
+  box-shadow: var(--so) var(--so) 0 var(--hair);
+  overflow: hidden;
+  min-width: 180px;
+}
+
+.fi-dropdown-item,
+.fi-menu-item {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--ink-2);
+  padding: 10px 14px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+}
+.fi-dropdown-item:hover,
+.fi-menu-item:hover {
+  background: var(--bg);
+  color: var(--ink);
+}
+
+.fi-dropdown-item-active,
+.fi-menu-item-active {
+  background: var(--accent-1);
+  color: var(--ink);
+}
+
+.fi-dropdown-divider,
+.fi-menu-divider {
+  height: 1px;
+  background: var(--hair);
+  margin: 4px 0;
+  opacity: 0.2;
+}
+
+/* ====================================================
+   18. LINKS
+   ==================================================== */
+a,
+.fi-link {
+  color: var(--accent-2);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.15s;
+}
+a:hover,
+.fi-link:hover {
+  color: var(--accent-3);
+  text-decoration: underline;
+}
+
+/* ====================================================
+   19. NOTIFICATIONS / TOASTS
+   ==================================================== */
+.fi-notification,
+.fi-toast {
+  background: var(--bg-2);
+  border: var(--bw) solid var(--hair);
+  box-shadow: var(--so) var(--so) 0 var(--hair);
+  padding: 14px 18px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.fi-notification-success {
+  border-left: 5px solid #62E07A;
+}
+.fi-notification-danger {
+  border-left: 5px solid var(--accent-3);
+}
+.fi-notification-warning {
+  border-left: 5px solid var(--accent-1);
+}
+.fi-notification-info {
+  border-left: 5px solid var(--accent-2);
+}
+
+.fi-notification-icon,
+.fi-toast-icon {
+  font-size: 18px;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.fi-notification-body,
+.fi-toast-body {
+  flex: 1;
+}
+
+.fi-notification-title,
+.fi-toast-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--ink);
+  margin-bottom: 2px;
+}
+
+.fi-notification-message,
+.fi-toast-message {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--ink-2);
+}
+
+/* ====================================================
+   20. CHECKBOXES / RADIO
+   ==================================================== */
+.fi-checkbox,
+input[type="checkbox"],
+input[type="radio"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--hair);
+  background: var(--bg);
+  position: relative;
+  cursor: pointer;
+  flex-shrink: 0;
+  margin: 0;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+input[type="checkbox"]:checked {
+  border-color: var(--accent-2);
+  background: rgba(51, 217, 240, 0.15);
+}
+
+input[type="checkbox"]:checked::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 1px;
+  left: 5px;
+  width: 5px;
+  height: 10px;
+  border: 2px solid var(--accent-2);
+  border-top: none;
+  border-left: none;
+  transform: rotate(45deg);
+}
+
+input[type="radio"] {
+  border-radius: 50%;
+}
+
+input[type="radio"]:checked {
+  border-color: var(--accent-2);
+  background: var(--bg);
+}
+
+input[type="radio"]:checked::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 8px;
+  height: 8px;
+  background: var(--accent-2);
+  border-radius: 50%;
+}
+
+/* Checkbox / radio label pairing */
+.fi-checkbox-label,
+label:has(input[type="checkbox"]),
+label:has(input[type="radio"]) {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--ink-2);
+}
+
+/* ====================================================
+   21. DARK MODE SPECIFIC OVERRIDES
+   ==================================================== */
+html.dark .fi-topbar {
+  backdrop-filter: blur(6px);
+  background: color-mix(in oklab, var(--bg-2) 92%, transparent);
+}
+
+html.dark .fi-sidebar {
+  background: var(--bg-2);
 }
 
 html.dark .fi-page {
-  background-color: #12141e !important;
+  background: var(--bg-2);
 }
 
-html.dark .fi-section {
-  background-color: #181a25 !important;
-  border: 1px solid #2a2e3a !important;
-  border-radius: 0 !important;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.25) !important;
+html.dark .fi-card:hover {
+  box-shadow: 9px 9px 0 rgba(0, 0, 0, 0.5);
 }
 
-html.dark .fi-section-title {
-  color: #7effc4 !important;
-  font-family: 'Press Start 2P', cursive !important;
-  font-size: 0.6rem !important;
-  border-bottom: 1px solid #2a2e3a !important;
-}
-
-/* ====================================================
-   DARK MODE — HEADER / PAGE HEADING
-   ==================================================== */
-html.dark .fi-page-header {
-  background-color: transparent !important;
-  border-bottom: 1px solid #2a2e3a !important;
-  padding-bottom: 1rem !important;
-  margin-bottom: 1.5rem !important;
-}
-
-html.dark .fi-page-title {
-  font-family: 'Press Start 2P', cursive !important;
-  font-size: 0.75rem !important;
-  color: #7effc4 !important;
-  text-shadow: 0 0 10px rgba(126, 255, 196, 0.3) !important;
-}
-
-/* ====================================================
-   DARK MODE — BUTTONS
-   ==================================================== */
-html.dark .fi-btn {
-  font-family: 'Press Start 2P', cursive !important;
-  font-size: 0.5rem !important;
-  letter-spacing: 0.03em;
-  border-radius: 0 !important;
-  border: 2px solid #2a2e3a !important;
-  background-color: #181a25 !important;
-  color: #7effc4 !important;
-  text-shadow: 0 0 6px rgba(126, 255, 196, 0.25) !important;
-  transition: all 0.1s ease !important;
-  box-shadow: 3px 3px 0px #0a0c14, inset 0 0 0 0 transparent !important;
-}
-
-html.dark .fi-btn:hover {
-  background-color: rgba(126, 255, 196, 0.1) !important;
-  border-color: #7effc4 !important;
-  color: #7effc4 !important;
-  box-shadow: 3px 3px 0px rgba(126, 255, 196, 0.15), 0 0 10px rgba(126, 255, 196, 0.1) !important;
-  text-shadow: 0 0 10px rgba(126, 255, 196, 0.6) !important;
-}
-
-html.dark .fi-btn:active {
-  box-shadow: 1px 1px 0px #0a0c14 !important;
-  transform: translate(2px, 2px) !important;
-}
-
-html.dark .fi-btn-primary {
-  background-color: #0e3024 !important;
-  border-color: #7effc4 !important;
-  color: #7effc4 !important;
-}
-
-html.dark .fi-btn-primary:hover {
-  background-color: #124536 !important;
-}
-
-html.dark .fi-btn-danger {
-  border-color: #ff6b6b !important;
-  color: #ff6b6b !important;
-}
-html.dark .fi-btn-danger:hover {
-  background-color: rgba(255, 107, 107, 0.12) !important;
-  border-color: #ff6b6b !important;
-  text-shadow: 0 0 8px rgba(255, 107, 107, 0.5) !important;
-}
-
-html.dark .fi-btn-secondary {
-  border-color: #2a2e3a !important;
-  color: #8892a4 !important;
-}
-
-/* ====================================================
-   DARK MODE — FORMS / INPUTS
-   ==================================================== */
-html.dark input[type="text"],
-html.dark input[type="email"],
-html.dark input[type="password"],
-html.dark input[type="number"],
-html.dark input[type="search"],
-html.dark input[type="url"],
-html.dark input[type="tel"],
-html.dark textarea,
-html.dark select,
-html.dark .fi-input,
-html.dark .fi-select,
-html.dark .fi-textarea,
-html.dark .fi-field-wrapper-input {
-  font-family: 'VT323', monospace !important;
-  font-size: 1.1rem !important;
-  background-color: #0a0c14 !important;
-  border: 2px solid #2a2e3a !important;
-  border-radius: 0 !important;
-  color: #c4c8d4 !important;
-  box-shadow: inset 2px 2px 0px rgba(0,0,0,0.3) !important;
-  transition: border-color 0.15s !important;
-}
-
-html.dark input:focus,
-html.dark textarea:focus,
-html.dark select:focus,
-html.dark .fi-input:focus,
-html.dark .fi-select:focus,
-html.dark .fi-textarea:focus {
-  outline: none !important;
-  border-color: #7effc4 !important;
-  box-shadow: inset 2px 2px 0px rgba(0,0,0,0.3), 0 0 8px rgba(126, 255, 196, 0.2) !important;
-}
-
-html.dark input::placeholder,
-html.dark textarea::placeholder {
-  color: #3a3e4e !important;
-}
-
-html.dark label,
-html.dark .fi-label {
-  font-family: 'Press Start 2P', cursive !important;
-  font-size: 0.5rem !important;
-  color: #8892a4 !important;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-}
-
-html.dark .fi-helper-text,
-html.dark .fi-field-helper-text {
-  color: #4a5068 !important;
-  font-family: 'VT323', monospace !important;
-  font-size: 0.95rem !important;
-}
-
-html.dark .fi-error-message {
-  color: #ff8080 !important;
-  font-family: 'VT323', monospace !important;
-}
-
-/* ====================================================
-   DARK MODE — TABLES
-   ==================================================== */
-html.dark .fi-ta,
-html.dark .fi-table {
-  background-color: #12141e !important;
-  border: 2px solid #2a2e3a !important;
-  border-radius: 0 !important;
-  overflow: hidden;
-}
-
-html.dark .fi-ta-header {
-  background-color: #0a0c14 !important;
-  border-bottom: 2px solid #2a2e3a !important;
-}
-
-html.dark .fi-ta-header-cell,
-html.dark .fi-th {
-  font-family: 'Press Start 2P', cursive !important;
-  font-size: 0.5rem !important;
-  color: #7effc4 !important;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  background-color: #0d0f16 !important;
-  border-bottom: 1px solid #2a2e3a !important;
-  border-right: 1px solid #2a2e3a !important;
-  padding: 0.75rem 1rem !important;
-}
-
-html.dark .fi-ta-row:hover,
-html.dark .fi-table tbody tr:hover {
-  background-color: #181a25 !important;
-}
-
-html.dark .fi-ta-row,
-html.dark .fi-table td {
-  font-family: 'VT323', monospace !important;
-  font-size: 1.1rem !important;
-  color: #c4c8d4 !important;
-  border-bottom: 1px solid #1a1d28 !important;
-  background-color: transparent !important;
-}
-
-html.dark .fi-ta-row-active,
-html.dark .fi-table tr.row-active {
-  background-color: rgba(126, 255, 196, 0.07) !important;
-}
-
-html.dark .fi-ta-cell,
-html.dark .fi-table td {
-  border-right: 1px solid #1e2130 !important;
-}
-
-/* ====================================================
-   DARK MODE — DROPDOWN / MENU PANELS
-   ==================================================== */
-html.dark .fi-dropdown-panel,
-html.dark .fi-dropdown-list,
-html.dark .fi-menu {
-  background-color: #181a25 !important;
-  border: 2px solid #2a2e3a !important;
-  border-radius: 0 !important;
-  box-shadow: 4px 4px 0px rgba(0,0,0,0.4), 0 0 20px rgba(0,0,0,0.3) !important;
-}
-
-html.dark .fi-dropdown-item,
-html.dark .fi-menu-item {
-  font-family: 'VT323', monospace !important;
-  font-size: 1.05rem !important;
-  color: #8892a4 !important;
-  border-radius: 0 !important;
-}
-
-html.dark .fi-dropdown-item:hover,
-html.dark .fi-menu-item:hover {
-  background-color: #0d0f16 !important;
-  color: #c4c8d4 !important;
-}
-
-html.dark .fi-dropdown-item-active,
-html.dark .fi-menu-item-active {
-  background-color: rgba(126, 255, 196, 0.1) !important;
-  color: #7effc4 !important;
-}
-
-/* ====================================================
-   DARK MODE — CARDS / PANELS / SECTIONS
-   ==================================================== */
-html.dark .fi-card,
-html.dark .fi-panels,
-html.dark .bg-white,
-html.dark .dark\:bg-gray-900,
-html.dark \[class*="bg-white"],
-html.dark \[class*="bg-gray"] {
-  background-color: #181a25 !important;
-  border: 2px solid #2a2e3a !important;
-  border-radius: 0 !important;
-  box-shadow: 4px 4px 0px rgba(0,0,0,0.3) !important;
-  color: #c4c8d4 !important;
-}
-
-html.dark .fi-tabs,
-html.dark .fi-tab,
-html.dark .fi-tabs-list {
-  background-color: #0a0c14 !important;
-  border-bottom: 2px solid #2a2e3a !important;
-}
-
-html.dark .fi-tab {
-  font-family: 'Press Start 2P', cursive !important;
-  font-size: 0.5rem !important;
-  color: #4a5068 !important;
-  border-radius: 0 !important;
-  letter-spacing: 0.03em;
-}
-
-html.dark .fi-tab-active,
-html.dark .fi-tab[class*="active"] {
-  background-color: #0d0f16 !important;
-  color: #7effc4 !important;
-  border-bottom: 2px solid #7effc4 !important;
-  text-shadow: 0 0 8px rgba(126, 255, 196, 0.4) !important;
-}
-
-/* ====================================================
-   DARK MODE — BADGES / PILLS
-   ==================================================== */
-html.dark .fi-badge,
-html.dark .fi-status-badge,
-html.dark .fi-badge[class*="success"] {
-  font-family: 'Press Start 2P', cursive !important;
-  font-size: 0.45rem !important;
-  border-radius: 0 !important;
-  border: 1px solid currentColor !important;
-  letter-spacing: 0.03em;
-}
-
-html.dark .fi-badge-success,
-html.dark [class*="badge-success"] {
-  background-color: rgba(126, 255, 196, 0.1) !important;
-  color: #7effc4 !important;
-  border-color: #7effc4 !important;
-}
-
-html.dark .fi-badge-danger,
-html.dark [class*="badge-danger"] {
-  background-color: rgba(255, 107, 107, 0.1) !important;
-  color: #ff8080 !important;
-  border-color: #ff8080 !important;
-}
-
-html.dark .fi-badge-warning,
-html.dark [class*="badge-warning"] {
-  background-color: rgba(245, 197, 66, 0.1) !important;
-  color: #f5c542 !important;
-  border-color: #f5c542 !important;
-}
-
-html.dark .fi-badge-info,
-html.dark [class*="badge-info"] {
-  background-color: rgba(100, 149, 237, 0.1) !important;
-  color: #a0c4ff !important;
-  border-color: #a0c4ff !important;
-}
-
-/* ====================================================
-   DARK MODE — PAGINATION
-   ==================================================== */
-html.dark .fi-pagination {
-  border-top: 1px solid #2a2e3a !important;
-  padding-top: 1rem !important;
-}
-
-html.dark .fi-pagination-item,
-html.dark .fi-pagination-page-item {
-  font-family: 'Press Start 2P', cursive !important;
-  font-size: 0.5rem !important;
-  color: #8892a4 !important;
-  border: 1px solid #2a2e3a !important;
-  border-radius: 0 !important;
-  background-color: #181a25 !important;
-}
-
-html.dark .fi-pagination-item-active,
-html.dark .fi-pagination-current {
-  background-color: rgba(126, 255, 196, 0.12) !important;
-  color: #7effc4 !important;
-  border-color: #7effc4 !important;
-  text-shadow: 0 0 6px rgba(126, 255, 196, 0.4) !important;
-}
-
-/* ====================================================
-   DARK MODE — LINKS & TEXT
-   ==================================================== */
 html.dark a,
 html.dark .fi-link {
-  color: #7effc4 !important;
-  text-decoration: none !important;
-  transition: text-shadow 0.1s !important;
+  color: var(--accent-2);
 }
-html.dark a:hover {
-  text-shadow: 0 0 8px rgba(126, 255, 196, 0.5) !important;
-}
-
-html.dark .text-gray-900,
-html.dark .text-gray-700,
-html.dark .text-gray-600,
-html.dark .text-gray-500,
-html.dark .fi-ta-text-item,
-html.dark .fi-text {
-  color: #c4c8d4 !important;
-}
-
-html.dark .fi-text-muted,
-html.dark .fi-text-secondary {
-  color: #7a7f8e !important;
-}
-
-/* ====================================================
-   DARK MODE — DIVIDERS / BORDERS
-   ==================================================== */
-html.dark hr,
-html.dark .fi-divider {
-  border-color: #2a2e3a !important;
-}
-
-html.dark .fi-border {
-  border-color: #2a2e3a !important;
-}
-
-/* ====================================================
-   DARK MODE — NOTIFICATIONS / TOASTS
-   ==================================================== */
-html.dark .fi-notification,
-html.dark .fi-toast {
-  background-color: #181a25 !important;
-  border: 2px solid #2a2e3a !important;
-  border-radius: 0 !important;
-  box-shadow: 4px 4px 0px rgba(0,0,0,0.4) !important;
-}
-
-html.dark .fi-notification-success {
-  border-color: #7effc4 !important;
-}
-
-html.dark .fi-notification-danger {
-  border-color: #ff8080 !important;
-}
-
-html.dark .fi-notification-warning {
-  border-color: #f5c542 !important;
-}
-
-/* ====================================================
-   LIGHT MODE — Soft Win95 Retro
-   ==================================================== */
-html:not(.dark) body {
-  font-family: 'VT323', monospace !important;
-  font-size: 1.15rem;
-  background-color: #f0ede5 !important;
-  color: #1a1814 !important;
-}
-
-html:not(.dark) h1,
-html:not(.dark) h2,
-html:not(.dark) h3,
-html:not(.dark) h4,
-html:not(.dark) h5,
-html:not(.dark) h6,
-html:not(.dark) .fi-header-heading {
-  font-family: 'Press Start 2P', cursive !important;
-  text-transform: uppercase;
-  color: #004040 !important;
-  text-shadow: 1px 1px 0px rgba(0,0,0,0.15) !important;
-}
-
-/* ====================================================
-   LIGHT MODE — NAVBAR / TOPBAR
-   ==================================================== */
-html:not(.dark) .fi-topbar {
-  background-color: #e0dcd5 !important;
-  border-bottom: 2px solid #808080 !important;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
-}
-
-html:not(.dark) .fi-topbar .fi-topbar-brand {
-  font-family: 'Press Start 2P', cursive !important;
-  font-size: 0.6rem !important;
-  color: #004040 !important;
-  letter-spacing: 0.05em;
-}
-
-html:not(.dark) .fi-topbar a,
-html:not(.dark) .fi-topbar button {
-  color: #1a1814 !important;
-}
-
-html:not(.dark) .fi-topbar a:hover,
-html:not(.dark) .fi-topbar button:hover {
-  color: #004040 !important;
-}
-
-/* ====================================================
-   LIGHT MODE — SIDEBAR
-   ==================================================== */
-html:not(.dark) .fi-sidebar {
-  background-color: #e8e4dd !important;
-  border-right: 2px solid #808080 !important;
-  box-shadow: inset -2px 0 0 #ffffff !important;
-}
-
-html:not(.dark) .fi-sidebar-header {
-  background-color: #d8d4cc !important;
-  border-bottom: 2px solid #808080 !important;
-  border-right: 1px solid #ffffff !important;
-  padding: 1rem 1.25rem !important;
-}
-
-html:not(.dark) .fi-sidebar-brand {
-  font-family: 'Press Start 2P', cursive !important;
-  font-size: 0.5rem !important;
-  color: #004040 !important;
-  letter-spacing: 0.05em;
-}
-
-html:not(.dark) .fi-sidebar-group-label {
-  font-family: 'Press Start 2P', cursive !important;
-  font-size: 0.45rem !important;
-  color: #7a7060 !important;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
-
-html:not(.dark) .fi-sidebar-item {
-  border-radius: 0 !important;
-  color: #3a3530 !important;
-  font-family: 'VT323', monospace !important;
-  font-size: 1.1rem !important;
-  border: 1px solid transparent !important;
-  margin: 2px 6px !important;
-}
-
-html:not(.dark) .fi-sidebar-item:hover {
-  background-color: #d0ccc4 !important;
-  border-color: #808080 !important;
-  color: #1a1814 !important;
-}
-
-html:not(.dark) .fi-sidebar-item-active,
-html:not(.dark) .fi-sidebar-item-active:hover {
-  background-color: #004040 !important;
-  color: #ffffff !important;
-  border: 1px solid #004040 !important;
-  box-shadow: inset 1px 1px 0 #006666, inset -1px -1px 0 #003333 !important;
-}
-
-html:not(.dark) .fi-sidebar-item-icon {
-  color: #6a6050 !important;
-  transition: color 0.1s !important;
-}
-html:not(.dark) .fi-sidebar-item-active .fi-sidebar-item-icon {
-  color: #ffffff !important;
-}
-
-/* ====================================================
-   LIGHT MODE — MAIN CONTENT AREA
-   ==================================================== */
-html:not(.dark) .fi-main {
-  background-color: #f0ede5 !important;
-}
-
-html:not(.dark) .fi-page {
-  background-color: #f5f2eb !important;
-}
-
-html:not(.dark) .fi-section {
-  background-color: #ffffff !important;
-  border: 2px solid #808080 !important;
-  border-radius: 0 !important;
-  box-shadow: 2px 2px 0px #404040, inset 0 0 0 1px #ffffff !important;
-}
-
-/* Win95 inset header style for section titles */
-html:not(.dark) .fi-section-title {
-  font-family: 'Press Start 2P', cursive !important;
-  font-size: 0.55rem !important;
-  color: #004040 !important;
-  background-color: #d8d4cc !important;
-  border-bottom: 1px solid #808080 !important;
-  border-top: 1px solid #ffffff !important;
-  border-left: 1px solid #ffffff !important;
-  border-right: 1px solid #808080 !important;
-  padding: 0.5rem 0.75rem !important;
-  margin: 0 !important;
-}
-
-/* ====================================================
-   LIGHT MODE — PAGE HEADER
-   ==================================================== */
-html:not(.dark) .fi-page-header {
-  background-color: transparent !important;
-  border-bottom: 1px solid #c0bbb0 !important;
-  padding-bottom: 1rem !important;
-  margin-bottom: 1.5rem !important;
-}
-
-html:not(.dark) .fi-page-title {
-  font-family: 'Press Start 2P', cursive !important;
-  font-size: 0.7rem !important;
-  color: #004040 !important;
-}
-
-/* ====================================================
-   LIGHT MODE — BUTTONS (Win95 outset style)
-   ==================================================== */
-html:not(.dark) .fi-btn {
-  font-family: 'Press Start 2P', cursive !important;
-  font-size: 0.5rem !important;
-  letter-spacing: 0.03em;
-  border-radius: 0 !important;
-  /* Win95 outset button border */
-  border: 2px solid !important;
-  border-top-color:    #ffffff !important;
-  border-left-color:   #ffffff !important;
-  border-bottom-color: #404040 !important;
-  border-right-color:  #404040 !important;
-  background-color: #d8d4cc !important;
-  color: #1a1814 !important;
-  box-shadow: none !important;
-  transition: none !important;
-}
-
-html:not(.dark) .fi-btn:hover {
-  background-color: #ccc8c0 !important;
-  color: #1a1814 !important;
-}
-
-html:not(.dark) .fi-btn:active {
-  /* Win95 inset style on active */
-  border: 2px solid !important;
-  border-top-color:    #404040 !important;
-  border-left-color:   #404040 !important;
-  border-bottom-color: #ffffff !important;
-  border-right-color:  #ffffff !important;
-  box-shadow: none !important;
-}
-
-html:not(.dark) .fi-btn-primary {
-  background-color: #d8d4cc !important;
-  border-top-color:    #ffffff !important;
-  border-left-color:   #ffffff !important;
-  border-bottom-color: #404040 !important;
-  border-right-color:  #404040 !important;
-  color: #004040 !important;
-  font-weight: normal !important;
-}
-
-html:not(.dark) .fi-btn-danger {
-  color: #800000 !important;
-}
-
-/* ====================================================
-   LIGHT MODE — FORMS / INPUTS
-   ==================================================== */
-html:not(.dark) input[type="text"],
-html:not(.dark) input[type="email"],
-html:not(.dark) input[type="password"],
-html:not(.dark) input[type="number"],
-html:not(.dark) input[type="search"],
-html:not(.dark) input[type="url"],
-html:not(.dark) input[type="tel"],
-html:not(.dark) textarea,
-html:not(.dark) select,
-html:not(.dark) .fi-input,
-html:not(.dark) .fi-select,
-html:not(.dark) .fi-textarea,
-html:not(.dark) .fi-field-wrapper-input {
-  font-family: 'VT323', monospace !important;
-  font-size: 1.1rem !important;
-  background-color: #ffffff !important;
-  border: 2px solid !important;
-  border-top-color:    #404040 !important;
-  border-left-color:   #404040 !important;
-  border-bottom-color: #ffffff !important;
-  border-right-color:  #ffffff !important;
-  border-radius: 0 !important;
-  color: #1a1814 !important;
-  box-shadow: inset 1px 1px 0 #000 !important;
-}
-
-html:not(.dark) input:focus,
-html:not(.dark) textarea:focus,
-html:not(.dark) select:focus,
-html:not(.dark) .fi-input:focus,
-html:not(.dark) .fi-select:focus,
-html:not(.dark) .fi-textarea:focus {
-  outline: none !important;
-  border: 2px solid #0040ff !important;
-  box-shadow: inset 1px 1px 0 #000, 0 0 0 1px #0040ff !important;
-}
-
-html:not(.dark) input::placeholder,
-html:not(.dark) textarea::placeholder {
-  color: #a09888 !important;
-}
-
-html:not(.dark) label,
-html:not(.dark) .fi-label {
-  font-family: 'Press Start 2P', cursive !important;
-  font-size: 0.5rem !important;
-  color: #3a3530 !important;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-}
-
-html:not(.dark) .fi-helper-text,
-html:not(.dark) .fi-field-helper-text {
-  color: #6a6050 !important;
-  font-family: 'VT323', monospace !important;
-  font-size: 0.95rem !important;
-}
-
-html:not(.dark) .fi-error-message {
-  color: #cc0000 !important;
-  font-family: 'VT323', monospace !important;
-}
-
-/* ====================================================
-   LIGHT MODE — TABLES
-   ==================================================== */
-html:not(.dark) .fi-ta,
-html:not(.dark) .fi-table {
-  background-color: #ffffff !important;
-  border: 2px solid #808080 !important;
-  border-radius: 0 !important;
-  box-shadow: 2px 2px 0px #404040 !important;
-  overflow: hidden;
-}
-
-html:not(.dark) .fi-ta-header {
-  background-color: #d8d4cc !important;
-  border-bottom: 2px solid #808080 !important;
-}
-
-html:not(.dark) .fi-ta-header-cell,
-html:not(.dark) .fi-th {
-  font-family: 'Press Start 2P', cursive !important;
-  font-size: 0.45rem !important;
-  color: #004040 !important;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-  background-color: #d8d4cc !important;
-  border-bottom: 2px solid #808080 !important;
-  border-right: 1px solid #808080 !important;
-  padding: 0.6rem 0.9rem !important;
-  /* Win95 header outset */
-  border-top:    1px solid #ffffff !important;
-  border-left:   1px solid #ffffff !important;
-  border-bottom: 2px solid #404040 !important;
-  border-right:  2px solid #404040 !important;
-}
-
-html:not(.dark) .fi-ta-row:hover,
-html:not(.dark) .fi-table tbody tr:hover {
-  background-color: #e8e4dd !important;
-}
-
-html:not(.dark) .fi-ta-row,
-html:not(.dark) .fi-table td {
-  font-family: 'VT323', monospace !important;
-  font-size: 1.1rem !important;
-  color: #1a1814 !important;
-  border-bottom: 1px solid #c8c4bc !important;
-  background-color: transparent !important;
-}
-
-html:not(.dark) .fi-ta-row-active {
-  background-color: #d0e8d0 !important;
-}
-
-html:not(.dark) .fi-ta-cell,
-html:not(.dark) .fi-table td {
-  border-right: 1px solid #c0bbb0 !important;
-}
-
-/* ====================================================
-   LIGHT MODE — DROPDOWN / MENU
-   ==================================================== */
-html:not(.dark) .fi-dropdown-panel,
-html:not(.dark) .fi-dropdown-list,
-html:not(.dark) .fi-menu {
-  background-color: #f0ede5 !important;
-  border: 2px solid #808080 !important;
-  border-radius: 0 !important;
-  box-shadow: 2px 2px 0px #404040 !important;
-}
-
-html:not(.dark) .fi-dropdown-item,
-html:not(.dark) .fi-menu-item {
-  font-family: 'VT323', monospace !important;
-  font-size: 1.05rem !important;
-  color: #1a1814 !important;
-  border-radius: 0 !important;
-}
-
-html:not(.dark) .fi-dropdown-item:hover,
-html:not(.dark) .fi-menu-item:hover {
-  background-color: #d8d4cc !important;
-}
-
-html:not(.dark) .fi-dropdown-item-active,
-html:not(.dark) .fi-menu-item-active {
-  background-color: #004040 !important;
-  color: #ffffff !important;
-}
-
-/* ====================================================
-   LIGHT MODE — CARDS / PANELS
-   ==================================================== */
-html:not(.dark) .fi-card,
-html:not(.dark) .fi-panels,
-html:not(.dark) .bg-white,
-html:not(.dark) \[class*="bg-white"],
-html:not(.dark) \[class*="bg-gray"] {
-  background-color: #f5f2eb !important;
-  border: 2px solid #808080 !important;
-  border-radius: 0 !important;
-  box-shadow: 2px 2px 0px #404040 !important;
-  color: #1a1814 !important;
-}
-
-html:not(.dark) .fi-tabs,
-html:not(.dark) .fi-tabs-list {
-  background-color: #d8d4cc !important;
-  border-bottom: 2px solid #808080 !important;
-  border-top: 1px solid #ffffff !important;
-}
-
-html:not(.dark) .fi-tab {
-  font-family: 'Press Start 2P', cursive !important;
-  font-size: 0.5rem !important;
-  color: #3a3530 !important;
-  border-radius: 0 !important;
-  letter-spacing: 0.03em;
-  border: 1px solid transparent !important;
-  background: transparent !important;
-}
-
-html:not(.dark) .fi-tab-active,
-html:not(.dark) .fi-tab[class*="active"] {
-  background-color: #f0ede5 !important;
-  color: #004040 !important;
-  /* Win95 active tab: outset bottom (none) so it blends */
-  border-top:    2px solid #ffffff !important;
-  border-left:   2px solid #ffffff !important;
-  border-bottom: 2px solid #f0ede5 !important;
-  border-right:  2px solid #808080 !important;
-}
-
-/* ====================================================
-   LIGHT MODE — BADGES / PILLS
-   ==================================================== */
-html:not(.dark) .fi-badge,
-html:not(.dark) .fi-status-badge {
-  font-family: 'Press Start 2P', cursive !important;
-  font-size: 0.45rem !important;
-  border-radius: 0 !important;
-  border: 2px solid !important;
-  letter-spacing: 0.03em;
-}
-
-html:not(.dark) .fi-badge-success,
-html:not(.dark) [class*="badge-success"] {
-  background-color: #d0f0d0 !important;
-  color: #004000 !important;
-  border-top-color:    #ffffff !important;
-  border-left-color:   #ffffff !important;
-  border-bottom-color: #408040 !important;
-  border-right-color:  #408040 !important;
-}
-
-html:not(.dark) .fi-badge-danger,
-html:not(.dark) [class*="badge-danger"] {
-  background-color: #f0d0d0 !important;
-  color: #800000 !important;
-  border-top-color:    #ffffff !important;
-  border-left-color:   #ffffff !important;
-  border-bottom-color: #800000 !important;
-  border-right-color:  #800000 !important;
-}
-
-html:not(.dark) .fi-badge-warning,
-html:not(.dark) [class*="badge-warning"] {
-  background-color: #f5e8c0 !important;
-  color: #806000 !important;
-  border-top-color:    #ffffff !important;
-  border-left-color:   #ffffff !important;
-  border-bottom-color: #806000 !important;
-  border-right-color:  #806000 !important;
-}
-
-/* ====================================================
-   LIGHT MODE — PAGINATION
-   ==================================================== */
-html:not(.dark) .fi-pagination {
-  border-top: 1px solid #c0bbb0 !important;
-  padding-top: 1rem !important;
-}
-
-html:not(.dark) .fi-pagination-item,
-html:not(.dark) .fi-pagination-page-item {
-  font-family: 'Press Start 2P', cursive !important;
-  font-size: 0.45rem !important;
-  color: #1a1814 !important;
-  border: 2px solid !important;
-  border-top-color:    #ffffff !important;
-  border-left-color:   #ffffff !important;
-  border-bottom-color: #404040 !important;
-  border-right-color:  #404040 !important;
-  background-color: #d8d4cc !important;
-  border-radius: 0 !important;
-}
-
-html:not(.dark) .fi-pagination-item-active,
-html:not(.dark) .fi-pagination-current {
-  background-color: #d8d4cc !important;
-  color: #004040 !important;
-  border-top-color:    #404040 !important;
-  border-left-color:   #404040 !important;
-  border-bottom-color: #ffffff !important;
-  border-right-color:  #ffffff !important;
-}
-
-/* ====================================================
-   LIGHT MODE — LINKS & TEXT
-   ==================================================== */
-html:not(.dark) a,
-html:not(.dark) .fi-link {
-  color: #0040aa !important;
-  text-decoration: underline !important;
-}
-
-html:not(.dark) .text-gray-900,
-html:not(.dark) .text-gray-700,
-html:not(.dark) .text-gray-600,
-html:not(.dark) .text-gray-500,
-html:not(.dark) .fi-ta-text-item,
-html:not(.dark) .fi-text {
-  color: #1a1814 !important;
-}
-
-html:not(.dark) .fi-text-muted,
-html:not(.dark) .fi-text-secondary {
-  color: #6a6050 !important;
-}
-
-/* ====================================================
-   LIGHT MODE — DIVIDERS / BORDERS
-   ==================================================== */
-html:not(.dark) hr,
-html:not(.dark) .fi-divider {
-  border-color: #c0bbb0 !important;
-}
-
-/* ====================================================
-   LIGHT MODE — NOTIFICATIONS / TOASTS
-   ==================================================== */
-html:not(.dark) .fi-notification,
-html:not(.dark) .fi-toast {
-  background-color: #f0ede5 !important;
-  border: 2px solid #808080 !important;
-  border-radius: 0 !important;
-  box-shadow: 2px 2px 0px #404040 !important;
-}
-
-html:not(.dark) .fi-notification-success {
-  border-color: #004000 !important;
-}
-
-html:not(.dark) .fi-notification-danger {
-  border-color: #800000 !important;
-}
-
-html:not(.dark) .fi-notification-warning {
-  border-color: #806000 !important;
-}
-
-/* ====================================================
-   SCROLLBAR — Both Modes
-   ==================================================== */
-html.dark ::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-}
-html.dark ::-webkit-scrollbar-track {
-  background: #0a0c14;
-}
-html.dark ::-webkit-scrollbar-thumb {
-  background: #2a2e3a;
-  border: 1px solid #0a0c14;
-}
-html.dark ::-webkit-scrollbar-thumb:hover {
-  background: #3a3e4e;
-}
-
-html:not(.dark) ::-webkit-scrollbar {
-  width: 14px;
-  height: 14px;
-}
-html:not(.dark) ::-webkit-scrollbar-track {
-  background: #c0bbb0;
-}
-html:not(.dark) ::-webkit-scrollbar-thumb {
-  background: #d8d4cc;
-  border: 2px solid;
-  border-color: #ffffff #404040 #404040 #ffffff;
-}
-html:not(.dark) ::-webkit-scrollbar-thumb:hover {
-  background: #ccc8c0;
-}
 
-/* ====================================================
-   SELECTION — Both Modes
-   ==================================================== */
 html.dark ::selection {
-  background-color: rgba(126, 255, 196, 0.25) !important;
-  color: #7effc4 !important;
+  background: var(--accent-1);
+  color: var(--ink);
 }
 
-html:not(.dark) ::selection {
-  background-color: rgba(0, 64, 64, 0.2) !important;
-  color: #004040 !important;
+/* Dark mode tabs overrides */
+html.dark .fi-tab {
+  background: color-mix(in oklab, var(--bg) 80%, transparent);
+}
+html.dark .fi-tab:hover {
+  background: color-mix(in oklab, var(--bg) 70%, var(--accent-1));
+}
+html.dark .fi-tab-active,
+html.dark .fi-tab[aria-selected="true"] {
+  background: var(--accent-2);
+  color: var(--ink);
 }
 
-/* ====================================================
-   CHECKBOX / RADIO — Dark Mode
-   ==================================================== */
-html.dark input[type="checkbox"],
-html.dark input[type="radio"] {
-  appearance: none !important;
-  -webkit-appearance: none !important;
-  width: 18px !important;
-  height: 18px !important;
-  border: 2px solid #2a2e3a !important;
-  background-color: #0a0c14 !important;
-  position: relative !important;
-  cursor: pointer !important;
-  flex-shrink: 0 !important;
-  margin: 0 !important;
+/* Dark mode sidebar active override */
+html.dark .fi-sidebar-item-active {
+  background: var(--ink);
+  color: var(--bg-2);
 }
 
-html.dark input[type="checkbox"]:checked {
-  border-color: #7effc4 !important;
-  background-color: rgba(126, 255, 196, 0.15) !important;
+/* Dark mode table active row */
+html.dark .fi-ta-row-active,
+html.dark tbody tr.row-active {
+  background: var(--ink);
+  color: var(--bg-2);
 }
 
-html.dark input[type="checkbox"]:checked::after {
-  content: "" !important;
-  display: block !important;
-  position: absolute !important;
-  top: 1px; left: 5px !important;
-  width: 5px; height: 10px !important;
-  border: 2px solid #7effc4 !important;
-  border-top: none !important;
-  border-left: none !important;
-  transform: rotate(45deg) !important;
-  box-shadow: 0 0 6px rgba(126, 255, 196, 0.5) !important;
+/* Dark mode section */
+html.dark .fi-section {
+  background: var(--bg-2);
 }
 
-html.dark input[type="radio"] {
-  border-radius: 50% !important;
-}
-
-html.dark input[type="radio"]:checked {
-  border-color: #7effc4 !important;
-  background-color: #0a0c14 !important;
-}
-
-html.dark input[type="radio"]:checked::after {
-  content: "" !important;
-  display: block !important;
-  position: absolute !important;
-  top: 3px; left: 3px !important;
-  width: 8px; height: 8px !important;
-  background-color: #7effc4 !important;
-  border-radius: 50% !important;
-  box-shadow: 0 0 6px rgba(126, 255, 196, 0.5) !important;
+/* Dark mode page header */
+html.dark .fi-page-header {
+  border-bottom-color: rgba(242, 239, 227, 0.2);
 }
 
 /* ====================================================
-   CHECKBOX / RADIO — Light Mode
+   22. REDUCE MOTION
    ==================================================== */
-html:not(.dark) input[type="checkbox"],
-html:not(.dark) input[type="radio"] {
-  appearance: none !important;
-  -webkit-appearance: none !important;
-  width: 18px !important;
-  height: 18px !important;
-  border: 2px solid !important;
-  border-color: #404040 !important;
-  background-color: #ffffff !important;
-  position: relative !important;
-  cursor: pointer !important;
-  flex-shrink: 0 !important;
-  margin: 0 !important;
-}
-
-html:not(.dark) input[type="checkbox"]:checked {
-  border-color: #004040 !important;
-  background-color: #ffffff !important;
-}
-
-html:not(.dark) input[type="checkbox"]:checked::after {
-  content: "" !important;
-  display: block !important;
-  position: absolute !important;
-  top: 0px; left: 5px !important;
-  width: 5px; height: 9px !important;
-  border: 2px solid #004040 !important;
-  border-top: none !important;
-  border-left: none !important;
-  transform: rotate(45deg) !important;
-}
-
-html:not(.dark) input[type="radio"] {
-  border-radius: 50% !important;
-}
-
-html:not(.dark) input[type="radio"]:checked {
-  border-color: #004040 !important;
-  background-color: #ffffff !important;
-}
-
-html:not(.dark) input[type="radio"]:checked::after {
-  content: "" !important;
-  display: block !important;
-  position: absolute !important;
-  top: 3px; left: 3px !important;
-  width: 8px; height: 8px !important;
-  background-color: #004040 !important;
-  border-radius: 50% !important;
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
 }
 
 /* ====================================================
-   RANGE SLIDER — Dark Mode
+   UTILITY CLASSES
    ==================================================== */
-html.dark input[type="range"] {
-  appearance: none !important;
-  -webkit-appearance: none !important;
-  height: 6px !important;
-  background: #2a2e3a !important;
-  border-radius: 0 !important;
-  border: 1px solid #2a2e3a !important;
-  outline: none !important;
+
+/* Text utilities */
+.fi-text-muted { color: var(--muted); }
+.fi-text-ink   { color: var(--ink); }
+.fi-text-accent-1 { color: var(--accent-1); }
+.fi-text-accent-2 { color: var(--accent-2); }
+.fi-text-accent-3 { color: var(--accent-3); }
+
+/* Display */
+.fi-display {
+  font-family: "Archivo Black", var(--font-display);
+  font-weight: 900;
+  font-size: clamp(28px, 4vw, 48px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--ink);
 }
 
-html.dark input[type="range"]::-webkit-slider-thumb {
-  appearance: none !important;
-  -webkit-appearance: none !important;
-  width: 14px !important;
-  height: 20px !important;
-  background: #181a25 !important;
-  border: 2px solid #7effc4 !important;
-  border-radius: 0 !important;
-  cursor: pointer !important;
-  box-shadow: 0 0 6px rgba(126, 255, 196, 0.3) !important;
+.fi-display-sm {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(20px, 3vw, 32px);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--ink);
 }
 
-/* ====================================================
-   RANGE SLIDER — Light Mode
-   ==================================================== */
-html:not(.dark) input[type="range"] {
-  appearance: none !important;
-  -webkit-appearance: none !important;
-  height: 20px !important;
-  background: #ffffff !important;
-  border-radius: 0 !important;
-  border: 2px solid !important;
-  border-color: #404040 #ffffff #ffffff #404040 !important;
-  outline: none !important;
+/* Divider */
+.fi-divider,
+hr {
+  border: none;
+  border-top: var(--bw) dashed var(--hair);
+  margin: 20px 0;
+  opacity: 0.3;
 }
 
-html:not(.dark) input[type="range"]::-webkit-slider-thumb {
-  appearance: none !important;
-  -webkit-appearance: none !important;
-  width: 8px !important;
-  height: 20px !important;
-  background: #d8d4cc !important;
-  border-radius: 0 !important;
-  border: 2px solid !important;
-  border-color: #ffffff #404040 #404040 #ffffff !important;
-  cursor: pointer !important;
+/* Code / Mono */
+code,
+pre,
+.fi-code,
+.fi-mono {
+  font-family: var(--font-mono);
+  font-size: 13px;
+}
+
+pre,
+.fi-pre {
+  background: var(--bg);
+  border: var(--bw) solid var(--hair);
+  box-shadow: var(--so) var(--so) 0 var(--hair);
+  padding: 16px 20px;
+  overflow-x: auto;
+}
+
+code:not(pre code) {
+  background: var(--bg);
+  border: 1px solid color-mix(in oklab, var(--hair) 30%, transparent);
+  padding: 1px 5px;
+  font-size: 12px;
+}
+
+/* Truncate */
+.fi-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* sr-only */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border-width: 0;
 }
