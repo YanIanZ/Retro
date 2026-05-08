@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Archives - {{ SITENAME }}{% endblock %}
+
+{% block content %}
+<div class="archives animate-in delay-1">
+    <h1 class="post-title" style="text-align: center; margin-bottom: 3rem;">Archives</h1>
+    
+    <div style="max-width: 800px; margin: 0 auto; background: var(--surface-color); padding: 2rem; border-radius: 16px; border: 1px solid var(--border-color);">
+        <dl style="display: grid; gap: 1rem; font-size: 1.1rem;">
+        {% for article in dates %}
+            <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 0.5rem;">
+                <dt style="font-family: 'JetBrains Mono', monospace; color: var(--text-secondary);">{{ article.locale_date }}</dt>
+                <dd><a href="{{ SITEURL }}/{{ article.url }}" style="color: var(--text-primary); font-weight: 600;">{{ article.title }}</a></dd>
+            </div>
+        {% endfor %}
+        </dl>
+    </div>
+</div>
+{% endblock content %}

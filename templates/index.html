@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="article-grid">
+    {% for article in articles_page.object_list if articles_page else articles %}
+    <article class="article-card animate-in delay-2">
+        <time class="article-date" datetime="{{ article.date.isoformat() }}">
+            {{ article.locale_date }}
+        </time>
+        <h2 class="article-title">
+            <a href="{{ SITEURL }}/{{ article.url }}" rel="bookmark" title="Permalink to {{ article.title|striptags }}">
+                {{ article.title }}
+            </a>
+        </h2>
+        <div class="article-summary">
+            {{ article.summary }}
+        </div>
+        <a href="{{ SITEURL }}/{{ article.url }}" class="read-more">Read More</a>
+    </article>
+    {% endfor %}
+</div>
+
+{% if articles_page and articles_page.has_other_pages() %}
+<div class="pagination animate-in delay-3" style="margin-top: 4rem; text-align: center; font-family: 'JetBrains Mono', monospace;">
+    {% if articles_page.has_previous() %}
+        <a href="{{ SITEURL }}/{{ articles_page.previous_page_number() == 1 and PAGE_URL or PAGE_URL.format(articles_page.previous_page_number()) }}" style="margin-right: 2rem;">← Newer Posts</a>
+    {% endif %}
+    {% if articles_page.has_next() %}
+        <a href="{{ SITEURL }}/{{ PAGE_URL.format(articles_page.next_page_number()) }}">Older Posts →</a>
+    {% endif %}
+</div>
+{% endif %}
+{% endblock content %}
