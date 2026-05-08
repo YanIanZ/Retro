@@ -962,15 +962,15 @@ label:has(input[type="radio"]) {
    ==================================================== */
 html.dark .fi-topbar {
   backdrop-filter: blur(6px);
-  background: color-mix(in oklab, var(--bg-2) 92%, transparent);
+  background: color-mix(in oklab, var(--bg-2) 92%, transparent) !important;
 }
 
 html.dark .fi-sidebar {
-  background: var(--bg-2);
+  background: var(--bg-2) !important;
 }
 
 html.dark .fi-page {
-  background: var(--bg-2);
+  background: var(--bg-2) !important;
 }
 
 html.dark .fi-card:hover {
@@ -987,7 +987,40 @@ html.dark ::selection {
   color: var(--ink);
 }
 
-/* Dark mode tabs overrides */
+/* ── CRITICAL: Force Filament/Tailwind dark backgrounds ── */
+html.dark .fi-body,
+html.dark .fi-main,
+html.dark .fi-page,
+html.dark [class*="dark:bg-gray"] {
+  background-color: var(--bg) !important;
+  color: var(--ink) !important;
+}
+
+html.dark .fi-section,
+html.dark .fi-card,
+html.dark .fi-ta,
+html.dark .fi-widget,
+html.dark [class*="dark:bg-white"] {
+  background-color: var(--bg-2) !important;
+  color: var(--ink) !important;
+  border-color: var(--hair) !important;
+}
+
+/* Force all dark mode text visible */
+html.dark p, html.dark span, html.dark div, html.dark label,
+html.dark .text-gray-500, html.dark .text-gray-400,
+html.dark .text-gray-600, html.dark .text-gray-700,
+html.dark [class*="dark:text-"] {
+  color: var(--ink-2) !important;
+}
+
+html.dark h1, html.dark h2, html.dark h3, html.dark h4,
+html.dark .fi-header-heading, html.dark .fi-page-title,
+html.dark .fi-section-title {
+  color: var(--ink) !important;
+}
+
+/* Dark mode tabs */
 html.dark .fi-tab {
   background: color-mix(in oklab, var(--bg) 80%, transparent);
 }
@@ -996,35 +1029,150 @@ html.dark .fi-tab:hover {
 }
 html.dark .fi-tab-active,
 html.dark .fi-tab[aria-selected="true"] {
-  background: var(--accent-2);
-  color: var(--ink);
+  background: var(--accent-2) !important;
+  color: var(--ink) !important;
 }
 
-/* Dark mode sidebar active override */
+/* Dark mode sidebar active */
 html.dark .fi-sidebar-item-active {
-  background: var(--ink);
-  color: var(--bg-2);
+  background: var(--ink) !important;
+  color: var(--bg-2) !important;
 }
 
-/* Dark mode table active row */
+/* Dark mode table */
 html.dark .fi-ta-row-active,
 html.dark tbody tr.row-active {
-  background: var(--ink);
-  color: var(--bg-2);
+  background: var(--ink) !important;
+  color: var(--bg-2) !important;
 }
 
-/* Dark mode section */
-html.dark .fi-section {
-  background: var(--bg-2);
-}
-
-/* Dark mode page header */
 html.dark .fi-page-header {
   border-bottom-color: rgba(242, 239, 227, 0.2);
 }
 
+/* Dark mode dropdown fix */
+html.dark .fi-dropdown-panel,
+html.dark .fi-dropdown-list,
+html.dark .fi-menu {
+  background: var(--bg-2) !important;
+  border-color: var(--hair) !important;
+}
+
+html.dark .fi-dropdown-item,
+html.dark .fi-menu-item {
+  color: var(--ink-2) !important;
+}
+
+html.dark .fi-dropdown-item:hover,
+html.dark .fi-menu-item:hover {
+  background: var(--bg) !important;
+  color: var(--ink) !important;
+}
+
+/* Dark mode inputs */
+html.dark .fi-input,
+html.dark input,
+html.dark textarea,
+html.dark select {
+  background: var(--bg) !important;
+  color: var(--ink) !important;
+  border-color: var(--hair) !important;
+}
+
 /* ====================================================
-   22. REDUCE MOTION
+   22. CSS-ART DECORATIONS (Brutalist flair)
+   ==================================================== */
+
+/* Corner accent shapes on sections */
+.fi-section::before {
+  content: "";
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 20px;
+  height: 20px;
+  background: var(--accent-1);
+  border: var(--bw) solid var(--hair);
+  z-index: 1;
+}
+
+.fi-section {
+  position: relative;
+  overflow: visible;
+}
+
+/* Alternating card accents */
+.fi-card:nth-child(3n+1)::before { background: var(--accent-1); }
+.fi-card:nth-child(3n+2)::before { background: var(--accent-2); }
+.fi-card:nth-child(3n+3)::before { background: var(--accent-3); }
+
+.fi-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: var(--accent-1);
+}
+
+.fi-card {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Playful sidebar hover indicator */
+.fi-sidebar-item:hover::after {
+  content: "→";
+  position: absolute;
+  right: 12px;
+  font-family: var(--font-mono);
+  font-weight: 800;
+  color: var(--accent-1);
+  animation: arrow-bounce 0.4s ease infinite alternate;
+}
+
+.fi-sidebar-item {
+  position: relative;
+}
+
+@keyframes arrow-bounce {
+  from { transform: translateX(0); }
+  to   { transform: translateX(4px); }
+}
+
+/* Wiggle on button hover */
+.fi-btn:hover {
+  animation: btn-wiggle 0.3s ease;
+}
+
+@keyframes btn-wiggle {
+  0%   { transform: translate(-2px, -2px) rotate(0deg); }
+  25%  { transform: translate(-2px, -2px) rotate(-1deg); }
+  50%  { transform: translate(-2px, -2px) rotate(1deg); }
+  75%  { transform: translate(-2px, -2px) rotate(-0.5deg); }
+  100% { transform: translate(-2px, -2px) rotate(0deg); }
+}
+
+/* Badge pulse for active/success */
+.fi-badge-success::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background: #62E07A;
+  border-radius: 50%;
+  margin-right: 4px;
+  animation: pulse-dot 1.5s ease infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.4; transform: scale(0.7); }
+}
+
+/* ====================================================
+   23. REDUCE MOTION
    ==================================================== */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
