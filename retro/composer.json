@@ -1,0 +1,22 @@
+{
+    "name": "antigravity/retro-theme",
+    "description": "An MS-DOS Retro Theme for Pelican Panel.",
+    "type": "pelican-plugin",
+    "require": {
+        "php": "^8.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "RetroTheme\\": "src/"
+        }
+    },
+    "extra": {
+        "pelican": {
+            "id": "retro",
+            "name": "Retro DOS Theme",
+            "author": "Antigravity",
+            "version": "1.0.0",
+            "category": "theme"
+        }
+    }
+}
