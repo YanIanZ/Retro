@@ -1,23 +1,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
 
 :root {
-  --fi-color-primary-50: #e0ffff;
-  --fi-color-primary-100: #b3ffff;
-  --fi-color-primary-200: #80ffff;
-  --fi-color-primary-300: #4dffff;
-  --fi-color-primary-400: #1affff;
-  --fi-color-primary-500: #00ffff; /* Neon Cyan */
-  --fi-color-primary-600: #00cccc;
-  --fi-color-primary-700: #009999;
-  --fi-color-primary-800: #006666;
-  --fi-color-primary-900: #003333;
-  --fi-color-primary-950: #001a1a;
+  --fi-color-primary-50: #e6f2ff;
+  --fi-color-primary-100: #cce5ff;
+  --fi-color-primary-200: #99cbff;
+  --fi-color-primary-300: #66b2ff;
+  --fi-color-primary-400: #3399ff;
+  --fi-color-primary-500: #FFFF55; /* Classic DOS Yellow Accent */
+  --fi-color-primary-600: #cccc44;
+  --fi-color-primary-700: #999933;
+  --fi-color-primary-800: #666622;
+  --fi-color-primary-900: #333311;
+  --fi-color-primary-950: #1a1a08;
 }
 
 body {
   font-family: 'VT323', monospace !important;
-  background-color: #050510 !important;
-  color: #00ffff !important;
+  background-color: #000080 !important; /* DOS Navy Blue */
+  color: #FFFFFF !important;
 }
 
 /* CRT Scanline Effect */
@@ -26,61 +26,69 @@ body::after {
   display: block;
   position: fixed;
   top: 0; left: 0; bottom: 0; right: 0;
-  background: linear-gradient(to bottom, rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
+  background: linear-gradient(to bottom, rgba(0, 0, 100, 0) 50%, rgba(0, 0, 0, 0.15) 50%);
   background-size: 100% 4px;
   z-index: 9999;
   pointer-events: none;
 }
 
-/* Make headers look like 8-bit */
 h1, h2, h3, h4, h5, h6, .fi-header-heading {
   font-family: 'Press Start 2P', cursive !important;
   text-transform: uppercase;
-  color: #ff00ff !important;
+  color: #FFFF55 !important;
   text-shadow: 2px 2px 0px #000;
 }
 
 /* Filament specific overrides */
 .fi-sidebar {
-  background-color: #0a0a1a !important;
-  border-right: 4px solid #ff00ff !important;
+  background-color: #0000AA !important; /* Slightly lighter blue for sidebar */
+  border-right: 4px solid #FFFF55 !important;
 }
 
 .fi-sidebar-item-active {
-  background-color: #ff00ff !important;
-  color: #000 !important;
+  background-color: #FFFF55 !important;
+  color: #000080 !important;
 }
 
 .fi-main {
-  background-color: #050510 !important;
+  background-color: #000080 !important;
+}
+
+/* Fix Missing Navbar */
+.fi-topbar {
+  background-color: #0000AA !important;
+  border-bottom: 4px solid #FFFF55 !important;
+}
+
+.fi-topbar .fi-icon-btn, .fi-topbar span {
+  color: #FFFFFF !important;
 }
 
 .fi-ta-content {
-  background-color: #111122 !important;
-  border: 2px solid #00ffff !important;
-  box-shadow: 8px 8px 0px rgba(255,0,255,0.4);
+  background-color: #0000AA !important;
+  border: 2px solid #FFFFFF !important;
+  box-shadow: 6px 6px 0px rgba(0,0,0,0.5);
 }
 
 .fi-btn {
   border-radius: 0 !important;
-  border: 2px solid #00ffff !important;
+  border: 2px solid #FFFF55 !important;
   font-family: 'Press Start 2P', monospace !important;
   text-transform: uppercase;
 }
 
-/* Glitch effect on hovering buttons */
 .fi-btn:hover {
-  background: #ff00ff !important;
-  color: #000 !important;
-  border-color: #ff00ff !important;
+  background: #FFFF55 !important;
+  color: #000080 !important;
+  border-color: #FFFF55 !important;
   animation: glitch-anim 0.2s infinite;
 }
 
 @keyframes glitch-anim {
   0% { transform: translate(0) }
-  20% { transform: translate(-2px, 2px) skewX(5deg) }
-  40% { transform: translate(-2px, -2px) skewX(-5deg) }
-  60% { transform: translate(2px, 2px) skewX(2deg) }
-  80% { transform: translate(2px, -2px) skewX(-2deg) }
+  20% { transform: translate(-2px, 2px) skewX(2deg) }
+  40% { transform: translate(-2px, -2px) skewX(-2deg) }
+  60% { transform: translate(2px, 2px) skewX(1deg) }
+  80% { transform: translate(2px, -2px) skewX(-1deg) }
   100% { transform: translate(0) }
 }
