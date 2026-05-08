@@ -1,0 +1,10 @@
+{
+    "id": "retro",
+    "name": "Retro DOS Theme",
+    "author": "Antigravity",
+    "version": "1.0.0",
+    "description": "An MS-DOS Retro Theme for Pelican Panel.",
+    "category": "theme",
+    "namespace": "RetroTheme\\",
+    "class": "RetroTheme\\RetroThemeServiceProvider"
+}
