@@ -121,15 +121,21 @@ html:not(.dark) ::-webkit-scrollbar-thumb:hover {
 /* ====================================================
    6. TOPBAR / NAVBAR
    ==================================================== */
-.fi-topbar {
-  display: grid;
-  grid-template-columns: auto auto 1fr auto auto auto;
-  align-items: center;
-  gap: 14px;
-  padding: 12px 18px;
-  background: var(--bg-2);
-  border-bottom: var(--bw) solid var(--hair);
+.fi-topbar,
+nav,
+header,
+[class*="topbar"],
+[class*="navbar"] {
+  display: flex !important;
+  align-items: center !important;
+  gap: 14px !important;
+  padding: 12px 24px !important;
+  background: var(--bg-2) !important;
+  border-bottom: var(--bw) solid var(--hair) !important;
   backdrop-filter: blur(6px);
+  position: relative;
+  z-index: 50;
+  min-height: 60px;
 }
 
 /* Brand */
@@ -179,33 +185,53 @@ html:not(.dark) ::-webkit-scrollbar-thumb:hover {
   letter-spacing: 0.06em;
 }
 
-/* Topbar buttons */
-.fi-topbar-btn,
-.fi-topbar button {
-  width: 44px;
-  height: 44px;
-  background: var(--bg);
-  border: var(--bw) solid var(--hair);
-  font-family: var(--font-mono);
-  font-weight: 800;
-  font-size: 16px;
-  color: var(--ink);
+/* Topbar buttons & icons */
+.fi-topbar button,
+.fi-topbar a,
+.fi-icon-btn,
+nav button,
+header button {
+  width: 44px !important;
+  height: 44px !important;
+  background: var(--bg) !important;
+  border: var(--bw) solid var(--hair) !important;
+  border-radius: 0 !important;
+  color: var(--ink) !important;
   box-shadow: var(--so) var(--so) 0 var(--hair);
-  display: grid;
-  place-items: center;
+  display: grid !important;
+  place-items: center !important;
   cursor: pointer;
   transition: transform 0.12s, box-shadow 0.12s, background 0.2s;
 }
-.fi-topbar-btn:hover,
-.fi-topbar button:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 8px 8px 0 var(--hair);
-  background: var(--accent-1);
+.fi-topbar button:hover,
+.fi-topbar a:hover,
+.fi-icon-btn:hover,
+nav button:hover,
+header button:hover {
+  transform: translate(-2px, -2px) !important;
+  box-shadow: 8px 8px 0 var(--hair) !important;
+  background: var(--accent-1) !important;
 }
-.fi-topbar-btn:active,
-.fi-topbar button:active {
-  transform: translate(3px, 3px);
-  box-shadow: none;
+.fi-topbar button:active,
+nav button:active,
+header button:active {
+  transform: translate(3px, 3px) !important;
+  box-shadow: none !important;
+}
+
+/* Navbar icon SVGs */
+.fi-topbar svg,
+nav svg,
+header svg,
+.fi-icon-btn svg {
+  width: 20px !important;
+  height: 20px !important;
+  color: var(--ink) !important;
+}
+
+/* Navbar spacer */
+.fi-topbar > *:nth-child(2) {
+  margin-right: auto;
 }
 
 /* ====================================================
