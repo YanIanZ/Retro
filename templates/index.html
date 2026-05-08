@@ -1,33 +1,48 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="article-grid">
-    {% for article in articles_page.object_list if articles_page else articles %}
-    <article class="article-card animate-in delay-2">
-        <time class="article-date" datetime="{{ article.date.isoformat() }}">
-            {{ article.locale_date }}
-        </time>
-        <h2 class="article-title">
-            <a href="{{ SITEURL }}/{{ article.url }}" rel="bookmark" title="Permalink to {{ article.title|striptags }}">
-                {{ article.title }}
-            </a>
-        </h2>
-        <div class="article-summary">
-            {{ article.summary }}
-        </div>
-        <a href="{{ SITEURL }}/{{ article.url }}" class="read-more">Read More</a>
-    </article>
-    {% endfor %}
+<div style="margin-bottom: 2rem; font-family: 'Press Start 2P', monospace; font-size: 0.8rem; color: var(--text-alert);">
+    <p>Volume in drive C is PELICAN_SYS</p>
+    <p>Volume Serial Number is 1337-BEEF</p>
+    <p>Directory of C:\ARTICLES</p>
 </div>
 
+<table class="dir-listing">
+    <thead>
+        <tr>
+            <th class="dir-date">DATE</th>
+            <th class="dir-type">TYPE</th>
+            <th class="dir-name">FILENAME</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for article in articles_page.object_list if articles_page else articles %}
+        <tr>
+            <td class="dir-date">{{ article.date.strftime('%m-%d-%y %H:%M') }}</td>
+            <td class="dir-type">&lt;FILE&gt;</td>
+            <td class="dir-name">
+                <a href="{{ SITEURL }}/{{ article.url }}" rel="bookmark" title="Permalink to {{ article.title|striptags }}">
+                    {{ article.title[:30] }}{% if article.title|length > 30 %}...{% endif %}.TXT
+                </a>
+                <span class="dir-summary">{{ article.summary|striptags|truncate(80) }}</span>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
 {% if articles_page and articles_page.has_other_pages() %}
-<div class="pagination animate-in delay-3" style="margin-top: 4rem; text-align: center; font-family: 'JetBrains Mono', monospace;">
+<div style="margin-top: 3rem; font-family: 'Press Start 2P', monospace; font-size: 0.8rem; color: var(--text-secondary);">
     {% if articles_page.has_previous() %}
-        <a href="{{ SITEURL }}/{{ articles_page.previous_page_number() == 1 and PAGE_URL or PAGE_URL.format(articles_page.previous_page_number()) }}" style="margin-right: 2rem;">← Newer Posts</a>
+        <a href="{{ SITEURL }}/{{ articles_page.previous_page_number() == 1 and PAGE_URL or PAGE_URL.format(articles_page.previous_page_number()) }}" style="margin-right: 2rem;">[ PAGE UP ]</a>
     {% endif %}
     {% if articles_page.has_next() %}
-        <a href="{{ SITEURL }}/{{ PAGE_URL.format(articles_page.next_page_number()) }}">Older Posts →</a>
+        <a href="{{ SITEURL }}/{{ PAGE_URL.format(articles_page.next_page_number()) }}">[ PAGE DOWN ]</a>
     {% endif %}
 </div>
 {% endif %}
+
+<div style="margin-top: 2rem; color: var(--text-primary);">
+    C:\> <span style="animation: blink 1s infinite;">_</span>
+</div>
 {% endblock content %}

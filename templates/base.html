@@ -23,40 +23,50 @@
 </head>
 <body>
 
-<!-- Retro moving grid -->
-<div class="bg-grid"></div>
-
-<header class="site-header">
-    <div class="header-inner">
-        <a href="{{ SITEURL }}/" class="site-title cursor-blink">{{ SITENAME }}</a>
-        <nav>
-            <ul class="nav-links">
-                {% for title, link in MENUITEMS %}
-                <li><a href="{{ link }}">{{ title }}</a></li>
-                {% endfor %}
-                {% if DISPLAY_PAGES_ON_MENU %}
-                    {% for page in pages %}
-                    <li><a href="{{ SITEURL }}/{{ page.url }}">{{ page.title }}</a></li>
+<div class="terminal-window">
+    <header class="terminal-header">
+        <span class="header-title">C:\> PELICAN.EXE</span>
+        <span class="header-controls">[ - ] [ 0 ] [ X ]</span>
+    </header>
+    
+    <div class="terminal-body">
+        <aside class="sidebar">
+            <div class="sys-info">
+                OS: RETRO-OS v1.0<br>
+                HOST: {{ SITENAME }}
+            </div>
+            <nav class="retro-menu">
+                <div class="menu-title">-- MENU --</div>
+                <ul>
+                    <li><a href="{{ SITEURL }}/">C:\HOME</a></li>
+                    {% for title, link in MENUITEMS %}
+                    <li><a href="{{ link }}">{{ title|upper }}</a></li>
                     {% endfor %}
-                {% endif %}
-                {% if DISPLAY_CATEGORIES_ON_MENU %}
-                    {% for cat, null in categories %}
-                    <li><a href="{{ SITEURL }}/{{ cat.url }}">{{ cat }}</a></li>
-                    {% endfor %}
-                {% endif %}
-            </ul>
-        </nav>
+                    {% if DISPLAY_PAGES_ON_MENU %}
+                        {% for page in pages %}
+                        <li><a href="{{ SITEURL }}/{{ page.url }}">{{ page.title|upper }}</a></li>
+                        {% endfor %}
+                    {% endif %}
+                    {% if DISPLAY_CATEGORIES_ON_MENU %}
+                        {% for cat, null in categories %}
+                        <li><a href="{{ SITEURL }}/{{ cat.url }}">DIR {{ cat|upper }}</a></li>
+                        {% endfor %}
+                    {% endif %}
+                </ul>
+            </nav>
+        </aside>
+        
+        <main class="main-content">
+            {% block content %}{% endblock %}
+        </main>
     </div>
-</header>
-
-<main class="main-content animate-in">
-    {% block content %}{% endblock %}
-</main>
-
-<footer class="site-footer">
-    <p>&copy; {{ SITEDATE|default("2026") }} {{ SITENAME }}. SYSTEM ONLINE.</p>
-    <p>POWERED BY <a href="https://getpelican.com/">PELICAN</a></p>
-</footer>
+    
+    <footer class="terminal-footer">
+        <span>STATUS: ONLINE</span>
+        <span>MEM: 640K OK</span>
+        <span><a href="https://getpelican.com/">POWERED BY PELICAN</a></span>
+    </footer>
+</div>
 
 </body>
 </html>
