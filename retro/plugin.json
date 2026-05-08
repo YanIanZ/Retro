@@ -3,8 +3,13 @@
     "name": "Retro Theme",
     "author": "Antigravity",
     "version": "2.1.0",
-    "description": "Neo-brutalist panel UI with bold yellow/cyan/magenta accents on soft dark backgrounds. Dark mode (soft dark) and light mode (warm cream). Full navbar, sidebar, forms, tables, and component styling.",
+    "description": "Neo-brutalist panel UI with bold yellow/cyan/magenta accents on soft dark backgrounds.",
     "category": "theme",
+    "url": "https://github.com/YanIanZ/Retro",
+    "update_url": null,
     "namespace": "RetroTheme",
-    "class": "RetroPlugin"
+    "class": "RetroPlugin",
+    "panels": null,
+    "panel_version": null,
+    "composer_packages": null
 }
