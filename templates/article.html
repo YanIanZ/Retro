@@ -4,31 +4,31 @@
 
 {% block content %}
 <article class="single-post">
-    <header class="post-header animate-in delay-1">
+    <header class="post-header animate-in">
         <h1 class="post-title">{{ article.title }}</h1>
         <div class="post-meta">
-            <time datetime="{{ article.date.isoformat() }}">{{ article.locale_date }}</time>
+            <time datetime="{{ article.date.isoformat() }}">DATE: {{ article.locale_date }}</time>
             {% if article.category %}
-            <span style="margin: 0 10px;">|</span>
-            <a href="{{ SITEURL }}/{{ article.category.url }}" class="category-link">{{ article.category }}</a>
+            <span style="margin: 0 10px; color: var(--accent-pink);">|</span>
+            CAT: <a href="{{ SITEURL }}/{{ article.category.url }}" class="category-link">{{ article.category }}</a>
             {% endif %}
             {% if article.author %}
-            <span style="margin: 0 10px;">|</span>
-            <span class="author">By {{ article.author }}</span>
+            <span style="margin: 0 10px; color: var(--accent-pink);">|</span>
+            <span class="author">USER: {{ article.author }}</span>
             {% endif %}
         </div>
     </header>
 
-    <div class="post-content animate-in delay-2">
+    <div class="post-content animate-in">
         {{ article.content }}
     </div>
     
     {% if article.tags %}
-    <div class="post-tags animate-in delay-3" style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border-color);">
-        <h4 style="margin-bottom: 1rem; color: var(--text-secondary);">Tags</h4>
+    <div class="post-tags animate-in" style="margin-top: 4rem; padding-top: 2rem; border-top: 4px dashed var(--accent-pink);">
+        <h4 style="margin-bottom: 1rem; color: var(--text-secondary); font-family: 'Press Start 2P', monospace; font-size: 1.2rem;">TAGS_</h4>
         <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
             {% for tag in article.tags %}
-            <a href="{{ SITEURL }}/{{ tag.url }}" style="background: rgba(0, 240, 255, 0.1); color: var(--accent-color); padding: 0.3rem 1rem; border-radius: 20px; font-size: 0.85rem; font-family: 'JetBrains Mono', monospace; border: 1px solid rgba(0, 240, 255, 0.2);">#{{ tag }}</a>
+            <a href="{{ SITEURL }}/{{ tag.url }}" style="background: var(--bg-color); color: var(--text-primary); padding: 0.5rem 1rem; font-size: 1.2rem; font-family: 'VT323', monospace; border: 2px solid var(--accent-blue); box-shadow: 4px 4px 0 var(--accent-pink);">#{{ tag }}</a>
             {% endfor %}
         </div>
     </div>

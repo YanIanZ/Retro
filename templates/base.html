@@ -6,6 +6,9 @@
     <title>{% block title %}{{ SITENAME }}{% endblock title %}</title>
     <meta name="description" content="{% block description %}{{ SITENAME }} - {{ SITESUBTITLE }}{% endblock %}">
     
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+    
     <!-- CSS -->
     <link rel="stylesheet" href="{{ SITEURL }}/theme/css/style.css">
     
@@ -20,9 +23,12 @@
 </head>
 <body>
 
+<!-- Retro moving grid -->
+<div class="bg-grid"></div>
+
 <header class="site-header">
     <div class="header-inner">
-        <a href="{{ SITEURL }}/" class="site-title">{{ SITENAME }}</a>
+        <a href="{{ SITEURL }}/" class="site-title cursor-blink">{{ SITENAME }}</a>
         <nav>
             <ul class="nav-links">
                 {% for title, link in MENUITEMS %}
@@ -43,33 +49,14 @@
     </div>
 </header>
 
-<main class="main-content animate-in delay-1">
+<main class="main-content animate-in">
     {% block content %}{% endblock %}
 </main>
 
 <footer class="site-footer">
-    <p>&copy; {{ SITEDATE|default("2026") }} {{ SITENAME }}. Designed with Aether Theme.</p>
-    <p>Powered by <a href="https://getpelican.com/">Pelican</a></p>
+    <p>&copy; {{ SITEDATE|default("2026") }} {{ SITENAME }}. SYSTEM ONLINE.</p>
+    <p>POWERED BY <a href="https://getpelican.com/">PELICAN</a></p>
 </footer>
-
-<script>
-    // Simple intersection observer for scroll animations
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = 1;
-                entry.target.style.transform = 'translateY(0)';
-            }
-        });
-    }, { threshold: 0.1 });
-
-    document.querySelectorAll('.article-card').forEach(card => {
-        card.style.opacity = 0;
-        card.style.transform = 'translateY(20px)';
-        card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-        observer.observe(card);
-    });
-</script>
 
 </body>
 </html>
