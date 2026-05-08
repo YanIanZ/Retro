@@ -251,6 +251,42 @@ h1, h2, h3 {
   color: var(--text-alert);
 }
 
+/* Custom Text Selection */
+::selection {
+  background: var(--text-secondary);
+  color: var(--bg-color);
+}
+::-moz-selection {
+  background: var(--text-secondary);
+  color: var(--bg-color);
+}
+
+/* Image Hover Glitch Effect */
+.post-content img {
+  max-width: 100%;
+  height: auto;
+  border: 2px solid var(--text-primary);
+  transition: transform 0.1s;
+  cursor: crosshair;
+  display: block;
+  margin: 2rem auto;
+}
+
+.post-content img:hover {
+  animation: img-glitch 0.2s infinite;
+  mix-blend-mode: exclusion;
+  filter: hue-rotate(90deg) contrast(200%) invert(20%);
+}
+
+@keyframes img-glitch {
+  0% { transform: translate(0) }
+  20% { transform: translate(-3px, 3px) skewX(10deg) }
+  40% { transform: translate(-3px, -3px) skewX(-10deg) }
+  60% { transform: translate(3px, 3px) skewX(5deg) }
+  80% { transform: translate(3px, -3px) skewX(-5deg) }
+  100% { transform: translate(0) }
+}
+
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 16px;
